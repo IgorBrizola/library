@@ -1,0 +1,12 @@
+spring:
+  name: library
+  jpa:
+    show-sql: true
+    # hibernate:
+      # ddl-auto: update
+  datasource:
+    driverClassName:
+    url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=library
+    username: sa
+    password: ${DB_PASSWORD}
+
