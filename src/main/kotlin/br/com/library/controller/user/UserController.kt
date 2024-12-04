@@ -1,12 +1,14 @@
 package br.com.library.controller.user
 
 import br.com.library.dto.user.UserRequest
+import br.com.library.dto.user.UserRequestUpdate
 import br.com.library.dto.user.UserResponse
 import br.com.library.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,9 +23,11 @@ class UserController(
 ) {
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     fun listAllUser(): List<UserResponse> = userService.listAllUser()
 
     @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
     fun findById(
         @PathVariable id: Int
     ): UserResponse = userService.findById(id)
@@ -37,5 +41,12 @@ class UserController(
     fun deleteById(@PathVariable id:Int) {
         userService.deleteUserById(id)
     }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateUser(
+        @PathVariable id: Int,
+        @RequestBody userRequestUpdate: UserRequestUpdate
+    ) = userService.updatedUserById(id, userRequestUpdate)
 
 }

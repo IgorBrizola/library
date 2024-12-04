@@ -4,6 +4,7 @@ import br.com.library.dto.exception.NullPointerException
 import br.com.library.dto.exception.UserAlreadyExistsException
 import br.com.library.dto.exception.UserNotFoundException
 import br.com.library.dto.user.UserRequest
+import br.com.library.dto.user.UserRequestUpdate
 import br.com.library.dto.user.UserResponse
 import br.com.library.model.User
 import br.com.library.repository.UserRepository
@@ -13,15 +14,17 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Period
+import java.time.format.DateTimeFormatter
 
 @Service
 class UserService(
     private val userRepository: UserRepository
 ) {
 
+    @Transactional
     fun createUser(userRequest: UserRequest): UserResponse {
 
-        val userExist = userRepository.existsByEmail(userRequest.email)
+        val userExist = userRepository.existsByEmailAndActiveIsTrue(userRequest.email)
 
         if (userExist) throw UserAlreadyExistsException("User with email '${userRequest.email}' already exists.")
 
@@ -53,6 +56,7 @@ class UserService(
             )
         }
 
+    @Transactional(readOnly = true)
     fun findById(id: Int): UserResponse = userRepository.findById(id)
         .map { user ->
         UserResponse(
@@ -68,10 +72,22 @@ class UserService(
     @Transactional
     fun deleteUserById(id: Int)  {
         val user = userRepository.findByIdAndActiveIsTrue(id).orElseThrow{ UserNotFoundException("user with id $id not found!") }
+        val updatedEmail = "${user.email.split("@")[0]}_deactivated_${LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE)}@${user.email.split("@")[1]}"
         val userDeleted = user.copy(
+            email = updatedEmail,
             deletedAt = LocalDateTime.now(),
             active = false)
         userRepository.save(userDeleted)
+    }
+
+    @Transactional
+    fun updatedUserById(id: Int, userRequestUpdate: UserRequestUpdate) {
+        val user = userRepository.findByIdAndActiveIsTrue(id).orElseThrow{ UserNotFoundException("user with id $id not found!") }
+        val userUpdated = user.copy(
+            name = userRequestUpdate.name ?: user.name,
+            updatedAt = LocalDateTime.now()
+        )
+        userRepository.save(userUpdated)
     }
 
 

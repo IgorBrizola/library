@@ -10,6 +10,7 @@ CREATE TABLE users (
     roles NVARCHAR(50) NOT NULL DEFAULT 'USER',
     created_at DATETIME2 NOT NULL DEFAULT GETDATE(),
     deleted_at DATETIME2,
+    updated_at DATETIME2,
     active BIT NOT NULL DEFAULT 1
 );
 

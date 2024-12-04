@@ -33,6 +33,8 @@ data class User(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Column(name = "deleted_at")
     val deletedAt: LocalDateTime? = null,
+    @Column(name = "updated_at")
+    val updatedAt: LocalDateTime? = null,
     @Column(name = "active")
     val active: Boolean = true
 )
