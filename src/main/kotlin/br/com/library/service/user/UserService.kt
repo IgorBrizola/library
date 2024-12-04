@@ -1,4 +1,4 @@
-package br.com.library.service
+package br.com.library.service.user
 
 import br.com.library.dto.exception.NullPointerException
 import br.com.library.dto.exception.UserAlreadyExistsException
@@ -6,8 +6,8 @@ import br.com.library.dto.exception.UserNotFoundException
 import br.com.library.dto.user.UserRequest
 import br.com.library.dto.user.UserRequestUpdate
 import br.com.library.dto.user.UserResponse
-import br.com.library.model.User
-import br.com.library.repository.UserRepository
+import br.com.library.model.user.User
+import br.com.library.repository.user.UserRepository
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

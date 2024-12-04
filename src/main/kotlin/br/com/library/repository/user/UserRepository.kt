@@ -1,6 +1,6 @@
-package br.com.library.repository
+package br.com.library.repository.user
 
-import br.com.library.model.User
+import br.com.library.model.user.User
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Optional
 

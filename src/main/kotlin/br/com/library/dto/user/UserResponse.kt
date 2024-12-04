@@ -1,6 +1,6 @@
 package br.com.library.dto.user
 
-import br.com.library.model.Role
+import br.com.library.model.user.Role
 
 data class UserResponse(
     val id: Int?,

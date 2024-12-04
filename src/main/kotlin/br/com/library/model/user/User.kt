@@ -1,4 +1,4 @@
-package br.com.library.model
+package br.com.library.model.user
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
