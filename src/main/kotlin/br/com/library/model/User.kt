@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @Entity
@@ -27,7 +28,13 @@ data class User(
     val password: String,
     @Column(name = "roles")
     @Enumerated(EnumType.STRING)
-    val roles: Role = Role.USER
+    val roles: Role = Role.USER,
+    @Column(name = "created_at")
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "deleted_at")
+    val deletedAt: LocalDateTime? = null,
+    @Column(name = "active")
+    val active: Boolean = true
 )
 
 enum class Role {

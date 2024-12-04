@@ -7,5 +7,6 @@ data class UserResponse(
     val name: String,
     val age: Int,
     val email: String,
-    val role: Role?
+    val role: Role?,
+    val active: Boolean
 )

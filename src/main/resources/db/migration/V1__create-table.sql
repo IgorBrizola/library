@@ -7,7 +7,10 @@ CREATE TABLE users (
     date_birth DATE NOT NULL,
     email NVARCHAR(255) NOT NULL UNIQUE,
     password NVARCHAR(255) NOT NULL,
-    roles NVARCHAR(50) NOT NULL DEFAULT 'USER'
+    roles NVARCHAR(50) NOT NULL DEFAULT 'USER',
+    created_at DATETIME2 NOT NULL DEFAULT GETDATE(),
+    deleted_at DATETIME2,
+    active BIT NOT NULL DEFAULT 1
 );
 
 -- Table Book
