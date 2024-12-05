@@ -1,8 +1,8 @@
 package br.com.library.service.user
 
 import br.com.library.dto.exception.NullPointerException
-import br.com.library.dto.exception.UserAlreadyExistsException
-import br.com.library.dto.exception.UserNotFoundException
+import br.com.library.dto.exception.user.UserAlreadyExistsException
+import br.com.library.dto.exception.user.UserNotFoundException
 import br.com.library.dto.user.UserRequest
 import br.com.library.dto.user.UserRequestUpdate
 import br.com.library.dto.user.UserResponse

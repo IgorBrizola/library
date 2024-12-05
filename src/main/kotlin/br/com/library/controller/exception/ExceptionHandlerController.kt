@@ -2,8 +2,8 @@ package br.com.library.controller.exception
 
 import br.com.library.dto.exception.ErrorMessageModel
 import br.com.library.dto.exception.NullPointerException
-import br.com.library.dto.exception.UserAlreadyExistsException
-import br.com.library.dto.exception.UserNotFoundException
+import br.com.library.dto.exception.user.UserAlreadyExistsException
+import br.com.library.dto.exception.user.UserNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
