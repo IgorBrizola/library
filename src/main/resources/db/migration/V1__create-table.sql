@@ -2,16 +2,16 @@
 
 -- Table User
 CREATE TABLE users (
-    id INT IDENTITY PRIMARY KEY,
+    id BIGINT IDENTITY PRIMARY KEY,
     name NVARCHAR(255) NOT NULL,
     date_birth DATE NOT NULL,
     email NVARCHAR(255) NOT NULL UNIQUE,
     password NVARCHAR(255) NOT NULL,
-    roles NVARCHAR(50) NOT NULL DEFAULT 'USER',
-    created_at DATETIME2 NOT NULL DEFAULT GETDATE(),
+    roles NVARCHAR(50) NOT NULL,
+    created_at DATETIME2 NOT NULL,
     deleted_at DATETIME2,
     updated_at DATETIME2,
-    active BIT NOT NULL DEFAULT 1
+    active BIT NOT NULL
 );
 
 -- Table Book
@@ -20,16 +20,22 @@ CREATE TABLE book (
     title NVARCHAR(255) NOT NULL,
     author NVARCHAR(255) NOT NULL,
     genre NVARCHAR(255) NOT NULL,
-    is_available BIT NOT NULL DEFAULT 1
+    created_at DATETIME2 NOT NULL,
+    updated_at DATETIME2,
+    deleted_at DATETIME2,
+    is_available BIT NOT NULL
 );
 
 -- Table Reservation
 CREATE TABLE reservation (
     id BIGINT IDENTITY PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id BIGINT NOT NULL,
     book_id BIGINT NOT NULL,
-    status NVARCHAR(50) NOT NULL DEFAULT 'PENDING',
-    updated_at DATETIME2 NOT NULL DEFAULT GETDATE(),
+    status NVARCHAR(50) NOT NULL,
+    created_at DATETIME2 NOT NULL,
+    updated_at DATETIME2,
+    deleted_at DATETIME2,
+    active BIT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(id),
     FOREIGN KEY (book_id) REFERENCES Book(id)
 );

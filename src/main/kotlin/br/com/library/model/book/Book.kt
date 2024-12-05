@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "book")
@@ -19,6 +20,12 @@ data class Book(
     val author: String,
     @Column(name = "genre")
     val genre: String,
+    @Column(name = "created_at")
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "deleted_at")
+    val deletedAt: LocalDateTime? = null,
+    @Column(name = "updated_at")
+    val updatedAt: LocalDateTime? = null,
     @Column(name = "is_available")
     val isAvailable: Boolean = true
 )

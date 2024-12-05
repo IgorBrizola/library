@@ -2,6 +2,7 @@ package br.com.library.controller.exception
 
 import br.com.library.dto.exception.ErrorMessageModel
 import br.com.library.dto.exception.NullPointerException
+import br.com.library.dto.exception.book.BookNotFoundException
 import br.com.library.dto.exception.user.UserAlreadyExistsException
 import br.com.library.dto.exception.user.UserNotFoundException
 import org.springframework.http.HttpStatus
@@ -35,7 +36,17 @@ class ExceptionHandlerController {
 
     @ExceptionHandler(UserNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleNullPointerException(ex: UserNotFoundException): ResponseEntity<ErrorMessageModel> {
+    fun handleUserNullPointerException(ex: UserNotFoundException): ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            HttpStatus.NOT_FOUND.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(BookNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleBookNullPointerException(ex: BookNotFoundException): ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             HttpStatus.NOT_FOUND.value(),
             ex.message
