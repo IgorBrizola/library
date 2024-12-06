@@ -50,6 +50,7 @@ class ReservationService(
         )
     }
 
+    @Transactional(readOnly = true)
     fun findAllReservation(): List<ReservationResponse> = reservationRepository
         .findAll()
         .map { reservation ->
@@ -62,6 +63,7 @@ class ReservationService(
         active = reservation.active)
         }
 
+    @Transactional
     fun updateStatusReservation(
         id: Int,
         requestUpdate: ReservationStatusUpdateRequest
