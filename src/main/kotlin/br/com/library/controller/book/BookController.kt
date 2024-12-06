@@ -20,13 +20,15 @@ class BookController (
 ){
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun registerBook(
+    fun register(
         @RequestBody bookRequest: BookRequest
     ): BookResponse = bookService.registerBook(bookRequest)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun findAllBook(): List<BookResponse> = bookService.findAllBook()
+    fun listAll(): List<BookResponse> = bookService.findAllBook()
+
+
 
     // TODO: findBookId, deleteBook, updateBook
 }
