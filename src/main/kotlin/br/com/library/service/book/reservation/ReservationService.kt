@@ -1,8 +1,10 @@
 package br.com.library.service.book.reservation
 
 import br.com.library.dto.book.reservation.request.ReservationRequest
+import br.com.library.dto.book.reservation.request.ReservationStatusUpdateRequest
 import br.com.library.dto.book.reservation.response.ReservationResponse
 import br.com.library.dto.exception.book.BookNotFoundException
+import br.com.library.dto.exception.book.reservation.ReservationNotFoundException
 import br.com.library.dto.exception.user.UserNotFoundException
 import br.com.library.model.book.reservation.Reservation
 import br.com.library.repository.book.BookRepository
@@ -22,6 +24,7 @@ class ReservationService(
     fun createReservation(reservationRequest: ReservationRequest): ReservationResponse {
 
             val userId = reservationRequest.userId
+
             val bookId = reservationRequest.bookId
 
             val user = userRepository.findByIdAndActiveIsTrue(userId)
@@ -58,6 +61,28 @@ class ReservationService(
         createdAt = reservation.createdAt,
         active = reservation.active)
         }
+
+    fun updateStatusReservation(
+        id: Int,
+        requestUpdate: ReservationStatusUpdateRequest
+    ): ReservationResponse {
+        val reservation = reservationRepository.findById(id)
+            .orElseThrow { ReservationNotFoundException("Reservation with id $id not found!") }
+
+        val statusUpdate = reservation
+            .copy(status = requestUpdate.status)
+
+        reservationRepository.save(statusUpdate)
+
+        return ReservationResponse(
+            id = statusUpdate.id,
+            user = statusUpdate.user,
+            book =  statusUpdate.book,
+            status =  statusUpdate.status,
+            createdAt = statusUpdate.createdAt,
+            active = statusUpdate.active
+        )
+    }
 
 
     // TODO: findReservationId, deleteReservation, updateStatusReservation, updateReservation
