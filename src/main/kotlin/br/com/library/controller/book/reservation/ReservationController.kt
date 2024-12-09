@@ -5,6 +5,7 @@ import br.com.library.dto.book.reservation.request.ReservationStatusUpdateReques
 import br.com.library.dto.book.reservation.response.ReservationResponse
 import br.com.library.service.book.reservation.ReservationService
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,8 +28,15 @@ class ReservationController (
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun listAll (
+    fun listAllActive (
     ): List<ReservationResponse> = reservationService.findAllReservation()
+
+
+    @GetMapping("{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    fun listUserWithReservation (
+        @PathVariable userId: Int
+    ): List<ReservationResponse> = reservationService.findUserIdWithReservation(userId)
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -36,4 +44,11 @@ class ReservationController (
         @PathVariable id: Int,
         @RequestBody requestUpdate: ReservationStatusUpdateRequest
     ): ReservationResponse = reservationService.updateStatusReservation(id, requestUpdate)
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun disable(
+        @PathVariable id: Int,
+    ) = reservationService.disableReservation(id)
+
 }

@@ -10,7 +10,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
 
@@ -20,10 +20,10 @@ data class Reservation(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     val user: User,
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id")
     val book: Book,
     @Enumerated(EnumType.STRING)
@@ -38,7 +38,7 @@ data class Reservation(
     @Column(name = "active")
     val active: Boolean = true
 ) {
-    enum class ReservationStatus{
-        PENDING, APPROVED, REJECTED, COMPLETED
+    enum class ReservationStatus {
+        PENDING, IN_PROGRESS, CANCELED, REJECTED, FINISHED
     }
 }
