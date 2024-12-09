@@ -1,5 +1,6 @@
 package br.com.library.controller.exception
 
+import br.com.library.dto.exception.BusinessException
 import br.com.library.dto.exception.ErrorMessageModel
 import br.com.library.dto.exception.NullPointerException
 import br.com.library.dto.exception.book.BookNotFoundException
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.client.HttpClientErrorException.UnprocessableEntity
 
 @ControllerAdvice
 class ExceptionHandlerController {
@@ -64,5 +66,15 @@ class ExceptionHandlerController {
             ex.message
         )
         return ResponseEntity(errorMessage, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(BusinessException::class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    fun handleResourceException(ex: BusinessException): ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            HttpStatus.UNPROCESSABLE_ENTITY.value(),
+            ex.message,
+        )
+        return ResponseEntity(errorMessage, HttpStatus.UNPROCESSABLE_ENTITY)
     }
 }
