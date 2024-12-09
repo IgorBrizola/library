@@ -27,5 +27,5 @@ data class Book(
     @Column(name = "updated_at")
     val updatedAt: LocalDateTime? = null,
     @Column(name = "is_available")
-    val isAvailable: Boolean = true
+    val available: Boolean = true
 )

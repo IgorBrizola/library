@@ -5,5 +5,5 @@ data class BookResponse(
     val title: String,
     val author: String,
     val genre: String,
-    val isAvailable: Boolean = true
+    val available: Boolean = true
 )

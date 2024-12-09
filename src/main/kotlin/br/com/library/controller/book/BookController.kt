@@ -1,13 +1,16 @@
 package br.com.library.controller.book
 
 import br.com.library.dto.book.request.BookRequest
+import br.com.library.dto.book.request.BookRequestAvailable
 import br.com.library.dto.book.reservation.request.ReservationRequest
 import br.com.library.dto.book.reservation.response.ReservationResponse
 import br.com.library.dto.book.response.BookResponse
 import br.com.library.service.book.BookService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -28,7 +31,17 @@ class BookController (
     @ResponseStatus(HttpStatus.OK)
     fun listAll(): List<BookResponse> = bookService.findAllBook()
 
+    @GetMapping("{bookId}")
+    fun findById(
+        @PathVariable bookId: Int,
+    ): BookResponse = bookService.findBookById(bookId)
+
+    @PutMapping("available/{bookId}")
+    fun updateAvailable(
+       @PathVariable bookId: Int,
+       @RequestBody requestAvailable: BookRequestAvailable
+    ): BookResponse = bookService.updateAvailableBook(bookId, requestAvailable)
 
 
-    // TODO: findBookId, deleteBook, updateBook
+    // TODO: deleteBook, updateBook
 }
