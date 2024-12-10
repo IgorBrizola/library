@@ -31,12 +31,18 @@ class ReservationController (
     fun listAllActive (
     ): List<ReservationResponse> = reservationService.findAllReservation()
 
-
-    @GetMapping("{userId}")
+    @GetMapping("user/{userId}")
     @ResponseStatus(HttpStatus.OK)
     fun listUserWithReservation (
         @PathVariable userId: Int
     ): List<ReservationResponse> = reservationService.findUserIdWithReservation(userId)
+
+
+    @GetMapping("book/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
+    fun listBookWithReservation (
+        @PathVariable bookId: Int
+    ): List<ReservationResponse> = reservationService.findBookIdWithReservation(bookId)
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -50,5 +56,11 @@ class ReservationController (
     fun disable(
         @PathVariable id: Int,
     ) = reservationService.disableReservation(id)
+
+    @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun findById(
+        @PathVariable id: Int
+    ): ReservationResponse = reservationService.findById(id)
 
 }
