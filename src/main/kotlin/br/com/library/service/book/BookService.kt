@@ -2,12 +2,14 @@ package br.com.library.service.book
 
 import br.com.library.dto.book.request.BookRequest
 import br.com.library.dto.book.request.BookRequestAvailable
+import br.com.library.dto.book.request.BookRequestUpdate
 import br.com.library.dto.book.response.BookResponse
 import br.com.library.dto.exception.book.BookNotFoundException
 import br.com.library.model.book.Book
 import br.com.library.repository.book.BookRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class BookService(
@@ -35,7 +37,11 @@ class BookService(
     }
 
     @Transactional(readOnly = true)
-    fun findAllBook(): List<BookResponse> = bookRepository.findAllByAvailableIsTrue().map {
+    fun findAllBook(
+        title: String?,
+        author: String?,
+        genre: String?
+    ): List<BookResponse> = bookRepository.findAll(title, author, genre).map {
         book ->
         BookResponse(id = book.id,
             title = book.title,
@@ -47,7 +53,7 @@ class BookService(
 
 
     @Transactional(readOnly = true)
-    fun findBookById(bookId: Int): BookResponse = bookRepository.findByIdAndAvailableIsTrue(bookId)
+    fun findBookByIdActiveTrue(bookId: Int): BookResponse = bookRepository.findByIdAndAvailableIsTrue(bookId)
         .map {
                 book ->
             BookResponse(id = book.id,
@@ -57,8 +63,6 @@ class BookService(
                 available = book.available
             )
         }.orElseThrow { BookNotFoundException("book with id $bookId not found!") }
-
-
 
 
     @Transactional
@@ -81,5 +85,39 @@ class BookService(
         )
     }
 
-    // TODO: findBookId, deleteBook, updateBook
+    @Transactional
+    fun updateBook(bookId: Int, requestBookUpdate: BookRequestUpdate): BookResponse {
+
+        val book = bookRepository.findById(bookId)
+            .orElseThrow { BookNotFoundException("book with id $bookId not found!") }
+
+        val updateBook = book.copy(
+            updatedAt = LocalDateTime.now(),
+            title = requestBookUpdate.title ?: book.title,
+            author = requestBookUpdate.author ?: book.author,
+            genre = requestBookUpdate.genre ?: book.genre
+        )
+
+        bookRepository.save(updateBook)
+
+        return BookResponse(
+            id = book.id,
+            title = book.title,
+            author = book.author,
+            genre = book.genre,
+            available = book.available
+        )
+    }
+
+    @Transactional(readOnly = true)
+    fun findByIdAll(bookId: Int): BookResponse = bookRepository.findById(bookId)
+        .map { book ->
+            BookResponse(
+                id = book.id,
+                title = book.title,
+                author = book.author,
+                genre = book.genre,
+                available = book.available
+            )}
+        .orElseThrow { BookNotFoundException("book with id $bookId not found!") }
 }
