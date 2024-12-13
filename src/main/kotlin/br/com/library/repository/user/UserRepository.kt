@@ -12,4 +12,5 @@ interface UserRepository : JpaRepository<User, Int> {
 
     fun findAllByActiveIsTrue(): List<User>
 
+    fun findByEmailAndActiveIsTrue(email: String): User?
 }
