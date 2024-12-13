@@ -45,5 +45,6 @@ CREATE TABLE refresh_token (
     id BIGINT IDENTITY PRIMARY KEY,
     token NVARCHAR(MAX) NOT NULL,
     username NVARCHAR(255) NOT NULL,
+    date_created DATETIME2 NOT NULL,
     FOREIGN KEY (username) REFERENCES Users(email)
 );
