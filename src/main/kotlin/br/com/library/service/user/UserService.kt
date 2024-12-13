@@ -8,6 +8,7 @@ import br.com.library.dto.user.UserRequestUpdate
 import br.com.library.dto.user.UserResponse
 import br.com.library.model.user.User
 import br.com.library.repository.user.UserRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +19,8 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val encoder: PasswordEncoder
 ) {
 
     @Transactional
@@ -28,7 +30,7 @@ class UserService(
 
         if (userExist) throw UserAlreadyExistsException("User with email '${userRequest.email}' already exists.")
 
-        val user = User(name = userRequest.name, dateBirth = userRequest.dateBirth, email = userRequest.email, password = userRequest.password)
+        val user = User(name = userRequest.name, dateBirth = userRequest.dateBirth, email = userRequest.email, password = encoder.encode(userRequest.password))
 
         val newUser = userRepository.save(user)
 
