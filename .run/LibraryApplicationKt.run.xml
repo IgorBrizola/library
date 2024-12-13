@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="LibraryApplicationKt" type="JetRunConfigurationType" nameIsGenerated="true">
+    <envs>
+      <env name="DB_PASSWORD" value="@Library123321" />
+      <env name="JWT_KEY" value="ajdksadklajkdasdjklasjdlsjdkasjldkjdkjslkdasdjmasldjkl" />
+      <env name="JWT_ONE_HOUR" value="3600000" />
+      <env name="JWT_TWENTY_FOUR_HOUR" value="86400000" />
+      <env name="JWT_ONE_MINUTE" value="60000" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="br.com.library.LibraryApplicationKt" />
+    <module name="library" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
