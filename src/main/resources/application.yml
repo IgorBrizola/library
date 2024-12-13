@@ -3,10 +3,14 @@ spring:
   jpa:
     show-sql: true
     # hibernate:
-      # ddl-auto: update
+    # ddl-auto: update
   datasource:
     driverClassName:
     url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=library
     username: sa
     password: ${DB_PASSWORD}
+jwt:
+  key: ${JWT_KEY}
+  access-token-expiration: ${JWT_ONE_HOUR} # 1 hour || 60000 # 1 minute
+  refresh-token-expiration: ${JWT_TWENTY_FOUR_HOUR}  # 24 hour
 
