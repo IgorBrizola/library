@@ -22,32 +22,57 @@ class SecurityConfiguration(
     ): DefaultSecurityFilterChain =
         http
             .csrf { it.disable() }
-            .authorizeHttpRequests{
+            .authorizeHttpRequests {
                 it
-                    .requestMatchers("library-api/auth", "library-api/auth/refresh", "/error")
+                    .requestMatchers("library-api/auth/**", "library-api/auth/refresh/**", "/error")
                     .permitAll()
 
-                    .requestMatchers(HttpMethod.POST, "/library-api/user")
+                    .requestMatchers(HttpMethod.POST, "library-api/user")
                     .permitAll()
 
-                    .requestMatchers(HttpMethod.PATCH, "/library-api/user/{id}")
+                    .requestMatchers(HttpMethod.POST, "library-api/reservation")
                     .hasRole("USER")
 
-                    .requestMatchers(HttpMethod.GET, "/library-api/book/**")
-                    .hasRole("USER")
+                    .requestMatchers(HttpMethod.GET, "library-api/reservation")
+                    .hasAnyRole("USER", "ADMIN")
 
-                    .requestMatchers(HttpMethod.POST, "/library-api/reservation")
-                    .hasRole("USER")
+                    .requestMatchers(HttpMethod.GET, "library-api/reservation/{userId}")
+                    .hasAnyRole("USER", "ADMIN")
 
-                    .requestMatchers(HttpMethod.GET, "/library-api/reservation/**")
-                    .hasRole("USER")
+                    .requestMatchers(HttpMethod.GET, "library-api/reservation/{bookId}")
+                    .hasAnyRole("USER", "ADMIN")
 
-                    .requestMatchers("library-api/user/**", "library-api/book/**", "library-api/reservation/**" )
+                    .requestMatchers(HttpMethod.GET, "library-api/reservation/{reservationId}")
+                    .hasAnyRole("USER", "ADMIN")
+
+                    .requestMatchers(HttpMethod.PUT, "library-api/reservation/{reservationId}")
                     .hasRole("ADMIN")
+
+                    .requestMatchers(HttpMethod.DELETE, "library-api/reservation/disable/{reservationId}")
+                    .hasRole("ADMIN")
+
+                    .requestMatchers(HttpMethod.GET, "library-api/book")
+                    .hasAnyRole("USER", "ADMIN")
+
+                    .requestMatchers(HttpMethod.GET, "library-api/book/{bookId}")
+                    .hasAnyRole("USER", "ADMIN")
+
+                    .requestMatchers(HttpMethod.GET, "library-api/book/all/{bookId}")
+                    .hasAnyRole("USER", "ADMIN")
+
+                    .requestMatchers(HttpMethod.POST, "library-api/book")
+                    .hasRole("ADMIN")
+
+                    .requestMatchers(HttpMethod.PATCH, "library-api/book/{bookId}")
+                    .hasRole("ADMIN")
+
+                    .requestMatchers(HttpMethod.PUT, "library-api/book/available/{bookId}")
+                    .hasRole("ADMIN")
+
                     .anyRequest()
-                    .fullyAuthenticated()
+                    .authenticated()
             }
-            .sessionManagement{
+            .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authenticationProvider(authenticationProvider)
