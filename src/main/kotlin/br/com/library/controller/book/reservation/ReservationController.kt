@@ -4,6 +4,7 @@ import br.com.library.dto.book.reservation.request.ReservationRequest
 import br.com.library.dto.book.reservation.request.ReservationStatusUpdateRequest
 import br.com.library.dto.book.reservation.response.ReservationResponse
 import br.com.library.service.book.reservation.ReservationService
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -23,8 +25,9 @@ class ReservationController (
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String?,
         @RequestBody reservationRequest: ReservationRequest
-    ): ReservationResponse = reservationService.createReservation(reservationRequest)
+    ): ReservationResponse = reservationService.createReservation(reservationRequest, authorization)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -44,20 +47,20 @@ class ReservationController (
         @PathVariable bookId: Int
     ): List<ReservationResponse> = reservationService.findBookIdWithReservation(bookId)
 
-    @PutMapping("{id}")
+    @PutMapping("{reservationId}")
     @ResponseStatus(HttpStatus.OK)
     fun updateStatus(
         @PathVariable id: Int,
         @RequestBody requestUpdate: ReservationStatusUpdateRequest
     ): ReservationResponse = reservationService.updateStatusReservation(id, requestUpdate)
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("disable/{reservationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun disable(
         @PathVariable id: Int,
     ) = reservationService.disableReservation(id)
 
-    @GetMapping("{id}")
+    @GetMapping("{reservationId}")
     @ResponseStatus(HttpStatus.OK)
     fun findById(
         @PathVariable id: Int
