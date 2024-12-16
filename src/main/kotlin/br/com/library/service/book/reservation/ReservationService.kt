@@ -13,6 +13,8 @@ import br.com.library.model.book.reservation.Reservation.ReservationStatus.PENDI
 import br.com.library.repository.book.BookRepository
 import br.com.library.repository.book.reservation.ReservationRepository
 import br.com.library.repository.user.UserRepository
+import br.com.library.service.jwt.TokenService
+import org.apache.coyote.BadRequestException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -22,14 +24,21 @@ class ReservationService(
     private val reservationRepository: ReservationRepository,
     private val userRepository: UserRepository,
     private val bookRepository: BookRepository,
+    private val tokenService: TokenService
     ) {
 
     @Transactional
-    fun createReservation(reservationRequest: ReservationRequest): ReservationResponse {
+    fun createReservation(reservationRequest: ReservationRequest, authorization: String?): ReservationResponse {
 
-        val userId = reservationRequest.userId
+        if (authorization == null || !authorization.startsWith("Bearer ")) throw BadRequestException("Token invalid!")
 
-        if (findUserIdWithReservation(reservationRequest.userId).count() > 4) throw BusinessException("User cannot have four active reservations")
+        val token = authorization.substringAfter("Bearer ").trim()
+
+        val email = tokenService.extractEmail(token) ?: throw UserNotFoundException("Email user not found!")
+
+        val userId = userRepository.findByEmailAndActiveIsTrue(email)?.id
+
+        if (findUserIdWithReservation(userId!!).count() > 4) throw BusinessException("User cannot have four active reservations")
 
         val bookId = reservationRequest.bookId
 
