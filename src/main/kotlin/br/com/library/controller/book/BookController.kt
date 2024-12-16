@@ -3,8 +3,6 @@ package br.com.library.controller.book
 import br.com.library.dto.book.request.BookRequest
 import br.com.library.dto.book.request.BookRequestAvailable
 import br.com.library.dto.book.request.BookRequestUpdate
-import br.com.library.dto.book.reservation.request.ReservationRequest
-import br.com.library.dto.book.reservation.response.ReservationResponse
 import br.com.library.dto.book.response.BookResponse
 import br.com.library.service.book.BookService
 import org.springframework.http.HttpStatus
