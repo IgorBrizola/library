@@ -7,7 +7,7 @@ CREATE TABLE users (
     date_birth DATE NOT NULL,
     email NVARCHAR(255) NOT NULL UNIQUE,
     password NVARCHAR(255) NOT NULL,
-    roles NVARCHAR(50) NOT NULL,
+    role NVARCHAR(50) NOT NULL,
     created_at DATETIME2 NOT NULL,
     deleted_at DATETIME2,
     updated_at DATETIME2,
