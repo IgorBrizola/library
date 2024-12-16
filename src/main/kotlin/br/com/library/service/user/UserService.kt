@@ -9,7 +9,6 @@ import br.com.library.dto.user.UserResponse
 import br.com.library.model.user.User
 import br.com.library.repository.user.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
-
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -39,7 +38,7 @@ class UserService(
             name = newUser.name,
             age = calcAge(dateBirth = newUser.dateBirth),
             email = newUser.email,
-            role = newUser.roles,
+            role = newUser.role,
             active = user.active
           )
     }
@@ -53,7 +52,7 @@ class UserService(
                 name = user.name,
                 age = calcAge(dateBirth = user.dateBirth),
                 email = user.email,
-                role = user.roles,
+                role = user.role,
                 active = user.active
             )
         }
@@ -66,7 +65,7 @@ class UserService(
             name = user.name,
             age = calcAge(dateBirth = user.dateBirth),
             email = user.email ,
-            role = user.roles,
+            role = user.role,
             active = user.active
         ) }
         .orElseThrow { NullPointerException("user not found!") }

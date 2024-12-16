@@ -26,9 +26,9 @@ data class User(
     val email: String,
     @Column(name = "password")
     val password: String,
-    @Column(name = "roles")
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    val roles: Role = Role.USER,
+    val role: Role = Role.USER,
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Column(name = "deleted_at")

@@ -17,10 +17,12 @@ class CustomDetailsService(
         val user =  userRepository.findByEmailAndActiveIsTrue(username)
             ?: throw UsernameNotFoundException("user with email $username not found!")
 
+        println(user)
+
         return User.builder()
                 .username(user.email)
                 .password(user.password)
-                .roles(user.roles.name)
+                .roles(user.role.name)
                 .build()
     }
 }
