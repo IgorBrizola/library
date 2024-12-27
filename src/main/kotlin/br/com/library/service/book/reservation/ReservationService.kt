@@ -89,6 +89,10 @@ class ReservationService(
 
         val book = reservation.book
 
+        val avaiable = reservation.book.available
+
+        if (!avaiable) throw BadRequestException("Book not available!")
+
         val statusUpdate = reservation.copy(
             status = requestUpdate.status,
             active = requestUpdate.status == IN_PROGRESS || requestUpdate.status == PENDING ,

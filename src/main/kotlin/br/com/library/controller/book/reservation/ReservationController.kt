@@ -50,9 +50,9 @@ class ReservationController (
     @PutMapping("{reservationId}")
     @ResponseStatus(HttpStatus.OK)
     fun updateStatus(
-        @PathVariable id: Int,
+        @PathVariable reservationId: Int,
         @RequestBody requestUpdate: ReservationStatusUpdateRequest
-    ): ReservationResponse = reservationService.updateStatusReservation(id, requestUpdate)
+    ): ReservationResponse = reservationService.updateStatusReservation(reservationId, requestUpdate)
 
     @DeleteMapping("disable/{reservationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
